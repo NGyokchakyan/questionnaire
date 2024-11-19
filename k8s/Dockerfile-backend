@@ -1,0 +1,7 @@
+FROM node:12-alpine
+WORKDIR /var/www/html/back
+COPY . .
+RUN npm i
+RUN npm run build
+RUN cat ./dist/environments/environment.prod.js > ./dist/environments/environment.js
+CMD ["npm", "run", "start:build"]

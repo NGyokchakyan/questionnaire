@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-nginx
+  namespace: questionnaire
+data:
+  default.conf: |
+                server {
+                    listen 80;
+                    server_name questionnaire.local;
+                    root   /var/www/html/questionnaire-frontend;
+                    index  index.html;
+                    location / {
+                        try_files $uri /index.html;
+                    }
+                    location /api~ {
+                      proxy_pass http://backend-svc;
+                    }
+                    location /socket.io {
+                      proxy_pass http://backend-svc;
+                    }                 
+                }
